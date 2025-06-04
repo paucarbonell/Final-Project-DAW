@@ -53,19 +53,17 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const register = async (name, email, password) => {
+  const register = async (name, email, password, password_confirmation) => {
     try {
-      // Usar la instancia api para register con path corregido
       const response = await api.post('/register', {
         name,
         email,
-        password
+        password,
+        password_confirmation
       });
       
       const { token, user } = response.data;
       localStorage.setItem('token', token);
-      // La configuración del token ahora se maneja en el interceptor de api
-      // axios.defaults.headers.common['Authorization'] = `Bearer ${token}`; // Eliminar esta línea
       setUser(user);
       
       return true;

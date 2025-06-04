@@ -26,7 +26,7 @@ const AuthModal = ({ isOpen, onClose }) => {
       if (isLogin) {
         await login(formData.email, formData.password);
       } else {
-        await register(formData.name, formData.email, formData.password);
+        await register(formData.name, formData.email, formData.password, formData.password_confirmation);
       }
       onClose();
     } catch (error) {

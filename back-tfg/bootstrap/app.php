@@ -21,7 +21,9 @@ return Application::configure(basePath: dirname(__DIR__))
             'auth' => \App\Http\Middleware\AuthMiddleware::class,
         ]);
 
+        // Aplica el middleware throttle:api al grupo 'api'
         $middleware->api("throttle:api");
+
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

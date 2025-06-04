@@ -1,12 +1,11 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
+import api from '../lib/axios';
 import PackCard from '../components/packs/PackCard';
 import PokemonCard from '../components/cards/PokemonCard';
 import { useAuth } from '../contexts/AuthContext';
 import Window from '../components/windows-ui/Window';
 import Button from '../components/windows-ui/Button';
-// import './Home.css'; // Se eliminará o modificará al final
 
 const Home = () => {
   const { user } = useAuth();
@@ -14,7 +13,7 @@ const Home = () => {
   const { data: featuredPacks, isLoading: packsLoading } = useQuery({
     queryKey: ['featuredPacks'],
     queryFn: async () => {
-      const response = await axios.get('/api/cards');
+      const response = await api.get('/api/packs');
       return response.data;
     }
   });
@@ -22,7 +21,7 @@ const Home = () => {
   const { data: featuredPokemon, isLoading: pokemonLoading } = useQuery({
     queryKey: ['featuredPokemon'],
     queryFn: async () => {
-      const response = await axios.get('/api/pokemon');
+      const response = await api.get('/api/cards');
       return response.data;
     }
   });

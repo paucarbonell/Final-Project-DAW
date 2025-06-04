@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pack;
+use App\Models\CardUser;
+use App\Models\PackOpening;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class PackController extends Controller
 {
@@ -53,13 +57,38 @@ class PackController extends Controller
     public function open(Pack $pack)
     {
         $user = request()->user();
-        $cards = $pack->open();
-        
-        // Asociar las cartas al usuario
-        foreach ($cards as $card) {
-            $user->cards()->attach($card->id);
-        }
 
-        return response()->json($cards);
+        DB::beginTransaction();
+
+        try {
+            $packOpening = PackOpening::create([
+                'user_id' => $user->id,
+                'pack_id' => $pack->id,
+                'opened_at' => now(),
+            ]);
+
+            $cardsToGive = $pack->cards()->inRandomOrder()->limit($pack->max_cards)->get();
+
+            $obtainedCards = [];
+
+            foreach ($cardsToGive as $card) {
+                $cardUser = CardUser::create([
+                    'user_id' => $user->id,
+                    'card_id' => $card->id,
+                    'from_pack_opening_id' => $packOpening->id,
+                    'obtained_at' => now(),
+                ]);
+                $obtainedCards[] = $card;
+            }
+
+            DB::commit();
+
+            return response()->json($obtainedCards);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            \Log::error('Error opening pack: ' . $e->getMessage());
+            return response()->json(['message' => 'Error al abrir el sobre.'], 500);
+        }
     }
 }

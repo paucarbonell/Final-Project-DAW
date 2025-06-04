@@ -55,16 +55,16 @@ class CardController extends Controller
         return response()->json(null, 204);
     }
 
-    public function open(Pack $card)
-    {
-        $user = auth()->user();
-        $cards = $card->open();
+    // public function open(Pack $card)
+    // {
+    //     $user = auth()->user();
+    //     $cards = $card->open();
         
-        // Asociar las cartas al usuario
-        foreach ($cards as $card) {
-            $user->cards()->attach($card->id);
-        }
+    //     // Asociar las cartas al usuario
+    //     foreach ($cards as $card) {
+    //         $user->cards()->attach($card->id);
+    //     }
 
-        return response()->json($cards);
-    }
+    //     return response()->json($cards);
+    // }
 }

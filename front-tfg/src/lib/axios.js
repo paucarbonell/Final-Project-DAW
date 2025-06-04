@@ -23,4 +23,23 @@ api.interceptors.request.use(
     }
 );
 
+// Interceptor para manejar errores de respuesta
+api.interceptors.response.use(
+    (response) => {
+        return response;
+    },
+    (error) => {
+        if (error.response?.status === 401) {
+            // Si el token expiró o no es válido, limpiar el localStorage y redirigir al login
+            localStorage.removeItem('token');
+            // Podrías usar history.push o una redirección similar si usas react-router-dom
+            // window.location.href = '/login'; // O la ruta de tu página de login
+            console.error('Authentication error: Token expired or invalid.');
+            // Aquí podrías emitir un evento o actualizar un estado en el contexto de autenticación
+            // para que la UI reaccione (ej: mostrar modal de login, redirigir)
+        }
+        return Promise.reject(error);
+    }
+);
+
 export default api; 

@@ -1,8 +1,9 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import axios from 'axios';
+import { createContext, useContext, useState, useEffect } from 'react';
+// import axios from 'axios'; // Eliminar esta línea
+import api from '../lib/axios'; // Importar la instancia configurada
 
-// Configurar la URL base de axios
-axios.defaults.baseURL = 'http://localhost:8000';
+// Eliminar la configuración global de axios
+// axios.defaults.baseURL = 'http://localhost:8000';
 
 const AuthContext = createContext(null);
 
@@ -14,9 +15,8 @@ export const AuthProvider = ({ children }) => {
     // Verificar si hay un token guardado
     const token = localStorage.getItem('token');
     if (token) {
-      // Configurar el token en axios
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      // Obtener información del usuario
+      // La configuración del token ahora se maneja en el interceptor de api
+      // axios.defaults.headers.common['Authorization'] = `Bearer ${token}`; // Eliminar esta línea
       fetchUser();
     } else {
       setLoading(false);
@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }) => {
 
   const fetchUser = async () => {
     try {
-      const response = await axios.get('/api/user');
+      const response = await api.get('/user'); // Usar la instancia api y path corregido
       setUser(response.data);
     } catch (error) {
       console.error('Error fetching user:', error);
@@ -37,11 +37,13 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const response = await axios.post('/api/login', { email, password });
+      // Usar la instancia api para login con path corregido
+      const response = await api.post('/login', { email, password });
       const { token, user } = response.data;
       
       localStorage.setItem('token', token);
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      // La configuración del token ahora se maneja en el interceptor de api
+      // axios.defaults.headers.common['Authorization'] = `Bearer ${token}`; // Eliminar esta línea
       setUser(user);
       
       return true;
@@ -53,7 +55,8 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (name, email, password) => {
     try {
-      const response = await axios.post('/api/register', {
+      // Usar la instancia api para register con path corregido
+      const response = await api.post('/register', {
         name,
         email,
         password
@@ -61,7 +64,8 @@ export const AuthProvider = ({ children }) => {
       
       const { token, user } = response.data;
       localStorage.setItem('token', token);
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      // La configuración del token ahora se maneja en el interceptor de api
+      // axios.defaults.headers.common['Authorization'] = `Bearer ${token}`; // Eliminar esta línea
       setUser(user);
       
       return true;
@@ -73,7 +77,8 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     localStorage.removeItem('token');
-    delete axios.defaults.headers.common['Authorization'];
+    // Eliminar la cabecera Authorization si se configuró directamente (ya no debería ser necesario)
+    // delete axios.defaults.headers.common['Authorization']; // Eliminar esta línea
     setUser(null);
   };
 

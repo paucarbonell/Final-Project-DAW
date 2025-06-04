@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import axios from 'axios';
+import api from '../lib/axios';
 import PackCard from '../components/packs/PackCard';
 import PokemonCard from '../components/cards/PokemonCard';
 import { useAuth } from '../contexts/AuthContext';
@@ -13,14 +13,14 @@ const OpenPacks = () => {
   const { data: availablePacks, isLoading: packsLoading } = useQuery({
     queryKey: ['availablePacks'],
     queryFn: async () => {
-      const response = await axios.get('/api/cards');
+      const response = await api.get('/packs');
       return response.data;
     }
   });
 
   const openPackMutation = useMutation({
     mutationFn: async (packId) => {
-      const response = await axios.post(`/api/cards/${packId}/open`);
+      const response = await api.post(`/packs/${packId}/open`);
       return response.data;
     },
     onSuccess: (data) => {

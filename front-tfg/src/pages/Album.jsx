@@ -1,6 +1,6 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
+import api from '../lib/axios';
 import PokemonCard from '../components/cards/PokemonCard';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -10,7 +10,7 @@ const Album = () => {
   const { data: userCards, isLoading } = useQuery({
     queryKey: ['userCards'],
     queryFn: async () => {
-      const response = await axios.get('/api/user/cards');
+      const response = await api.get('/api/user/cards');
       return response.data;
     },
     enabled: !!user // Solo se ejecuta si hay un usuario autenticado

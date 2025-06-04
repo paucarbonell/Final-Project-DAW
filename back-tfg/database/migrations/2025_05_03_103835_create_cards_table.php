@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->boolean('is_shiny')->default(false);
             $table->string('type_1');
             $table->string('type_2')->nullable();
+            $table->foreignId('pack_id')->nullable()->constrained('packs')->onDelete('set null');
             $table->timestamps();
         });
     }

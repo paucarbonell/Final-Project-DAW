@@ -16,6 +16,7 @@ class Card extends Model
         'is_shiny',
         'type_1',
         'type_2',
+        'pack_id',
     ];
 
     protected $casts = [
@@ -27,8 +28,8 @@ class Card extends Model
         return $this->hasMany(CardUser::class);
     }
 
-    public function packs()
+    public function pack()
     {
-        return $this->belongsToMany(Pack::class);
+        return $this->belongsTo(Pack::class);
     }
 }

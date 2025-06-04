@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Card;
+use App\Models\Pack;
 use Illuminate\Http\Request;
 
 class CardController extends Controller
@@ -52,5 +53,18 @@ class CardController extends Controller
     {
         $card->delete();
         return response()->json(null, 204);
+    }
+
+    public function open(Pack $card)
+    {
+        $user = auth()->user();
+        $cards = $card->open();
+        
+        // Asociar las cartas al usuario
+        foreach ($cards as $card) {
+            $user->cards()->attach($card->id);
+        }
+
+        return response()->json($cards);
     }
 }

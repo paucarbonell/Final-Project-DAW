@@ -38,20 +38,22 @@ class CardSeeder extends Seeder
             $pokemonDetails = $pokemonDetailsResponse->json();
 
             $isShiny = fake()->boolean(1);
-            $imageUrl = $isShiny 
-                        ? $pokemonDetails['sprites']['front_shiny'] 
-                        : $pokemonDetails['sprites']['front_default'];
+            $imageUrl = $pokemonDetails['sprites']['front_default'];
+            $shinyImageUrl = $pokemonDetails['sprites']['front_shiny'];
 
-            $rarity = $this->assignRarity($pokemonDetails['stats']);
+            $powerLevel = $this->calculatePowerLevel($pokemonDetails['stats']);
+            $rarity = $this->assignRarity($powerLevel);
 
             Card::firstOrCreate(
                 ['name' => $pokemonDetails['name']],
                 [
                     'image_url' => $imageUrl,
+                    'shiny_image_url' => $shinyImageUrl,
                     'rarity' => $rarity,
                     'is_shiny' => $isShiny,
                     'type_1' => $pokemonDetails['types'][0]['type']['name'],
                     'type_2' => $pokemonDetails['types'][1]['type']['name'] ?? null,
+                    'power_level' => $powerLevel,
                 ]
             );
 
@@ -59,15 +61,18 @@ class CardSeeder extends Seeder
         }
     }
 
-    private function assignRarity($stats): string
+    private function calculatePowerLevel($stats): int
     {
-        $totalStats = array_sum(array_column($stats, 'base_stat'));
+        return array_sum(array_column($stats, 'base_stat'));
+    }
 
+    private function assignRarity(int $powerLevel): string
+    {
         return match (true) {
-            $totalStats >= 600 => 'legendary',
-            $totalStats >= 450 => 'epic',
-            $totalStats >= 300 => 'rare',
-            default => 'common',
+            $powerLevel >= 600 => 'legendary',    // Solo los más poderosos
+            $powerLevel >= 500 => 'epic',         // Pokémon muy fuertes
+            $powerLevel >= 400 => 'rare',         // Pokémon fuertes
+            default => 'common',                  // El resto son comunes
         };
     }
 }

@@ -10,20 +10,28 @@ class PackSeeder extends Seeder
 {
     public function run(): void
     {
-        $packNames = ['Pack Rojo', 'Pack Azul', 'Pack Verde'];
+        $packConfigs = [
+            ['name' => 'Pack Rojo', 'price' => 10],
+            ['name' => 'Pack Azul', 'price' => 15],
+            ['name' => 'Pack Verde', 'price' => 20],
+        ];
 
-        $cards = Card::all()->shuffle();
-        $pools = $cards->chunk(51);
+        $cardChunks = Card::inRandomOrder()->get()->chunk(51);
 
-        foreach ($pools as $i => $pool) {
+        foreach ($packConfigs as $i => $config) {
+            if (!isset($cardChunks[$i])) break;
+
             $pack = Pack::create([
-                'name' => $packNames[$i],
-                'price' => 10 + $i * 5,
+                'name' => $config['name'],
+                'price' => $config['price'],
                 'max_cards' => 5,
                 'description' => "Pack con cartas variadas del pool #" . ($i + 1),
             ]);
 
-            $pack->cards()->attach($pool->pluck('id'));
+            // Asignar las cartas directamente al pack
+            $cardChunks[$i]->each(function ($card) use ($pack) {
+                $card->update(['pack_id' => $pack->id]);
+            });
         }
     }
 }

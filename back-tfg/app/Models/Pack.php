@@ -23,6 +23,6 @@ class Pack extends Model
 
     public function cards()
     {
-        return $this->belongsToMany(Card::class)->withTimestamps();
+        return $this->hasMany(Card::class);
     }
 }

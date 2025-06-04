@@ -16,9 +16,9 @@ class PackController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string',
-            'price' => 'required|numeric',
-            'max_cards' => 'required|integer',
             'description' => 'required|string',
+            'price' => 'required|numeric',
+            'cards_per_pack' => 'required|integer',
         ]);
 
         $pack = Pack::create($data);
@@ -34,9 +34,9 @@ class PackController extends Controller
     {
         $data = $request->validate([
             'name' => 'sometimes|string',
-            'price' => 'sometimes|numeric',
-            'max_cards' => 'sometimes|integer',
             'description' => 'sometimes|string',
+            'price' => 'sometimes|numeric',
+            'cards_per_pack' => 'sometimes|integer',
         ]);
 
         $pack->update($data);
@@ -48,5 +48,18 @@ class PackController extends Controller
     {
         $pack->delete();
         return response()->json(null, 204);
+    }
+
+    public function open(Pack $pack)
+    {
+        $user = request()->user();
+        $cards = $pack->open();
+        
+        // Asociar las cartas al usuario
+        foreach ($cards as $card) {
+            $user->cards()->attach($card->id);
+        }
+
+        return response()->json($cards);
     }
 }

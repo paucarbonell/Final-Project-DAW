@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class CardUser extends Model
 {
@@ -14,6 +14,10 @@ class CardUser extends Model
         'card_id',
         'from_pack_opening_id',
         'obtained_at',
+    ];
+
+    protected $casts = [
+        'obtained_at' => 'datetime',
     ];
 
     public function user()

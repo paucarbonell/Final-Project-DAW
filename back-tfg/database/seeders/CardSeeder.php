@@ -69,10 +69,10 @@ class CardSeeder extends Seeder
     private function assignRarity(int $powerLevel): string
     {
         return match (true) {
-            $powerLevel >= 600 => 'legendary',    // Solo los más poderosos
-            $powerLevel >= 500 => 'epic',         // Pokémon muy fuertes
-            $powerLevel >= 400 => 'rare',         // Pokémon fuertes
-            default => 'common',                  // El resto son comunes
+            $powerLevel >= 580 => 'legendario',    // Solo los más poderosos (traducido, umbral cambiado a 580)
+            $powerLevel >= 500 => 'épico',         // Pokémon muy fuertes (traducido)
+            $powerLevel >= 400 => 'raro',         // Pokémon fuertes (traducido)
+            default => 'común',                  // El resto son comunes (traducido)
         };
     }
 }

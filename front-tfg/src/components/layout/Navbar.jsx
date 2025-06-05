@@ -18,14 +18,14 @@ const Navbar = () => {
     }}>
       <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--primary-color)' }}>
         <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
-          Pokémon Cards
+          Pokemon Cards
         </Link>
       </div>
       <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
         {user ? (
           <>
             <Link to="/album" style={{ textDecoration: 'none', color: 'var(--text-color)' }}>
-              Mi Álbum
+              Mi Album
             </Link>
             <Link to="/open" style={{ textDecoration: 'none', color: 'var(--text-color)' }}>
               Abrir Sobres
@@ -43,7 +43,7 @@ const Navbar = () => {
                   cursor: 'pointer'
                 }}
               >
-                Cerrar Sesión
+                Cerrar Sesion
               </button>
             </div>
           </>
@@ -59,7 +59,7 @@ const Navbar = () => {
               cursor: 'pointer'
             }}
           >
-            Iniciar Sesión
+            Iniciar Sesion
           </button>
         )}
       </div>

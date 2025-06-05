@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class UserController extends BaseController
 {
@@ -17,7 +18,9 @@ class UserController extends BaseController
 
     public function __construct()
     {
-        $this->middleware('auth:sanctum')->except(['store', 'login']);
+        // We will need to adjust middleware later for token authentication using remember_token
+        // For now, keeping routes public
+        // $this->middleware('auth:sanctum')->except(['store', 'login']);
     }
 
     public function store(Request $request)
@@ -35,11 +38,9 @@ class UserController extends BaseController
                 'password' => Hash::make($validated['password']),
             ]);
 
-            $token = $user->createToken('auth_token')->plainTextToken;
-
             return response()->json([
                 'user' => $user,
-                'token' => $token
+                'token' => $user->createToken('auth_token')->plainTextToken
             ], 201);
         } catch (ValidationException $e) {
             return response()->json([
@@ -47,7 +48,7 @@ class UserController extends BaseController
                 'errors' => $e->errors()
             ], 422);
         } catch (\Exception $e) {
-            \Log::error('Registration error: ' . $e->getMessage());
+            Log::error('Registration error: ' . $e->getMessage());
             return response()->json([
                 'message' => 'Registration failed',
                 'error' => $e->getMessage()
@@ -70,11 +71,9 @@ class UserController extends BaseController
             ]);
         }
 
-        $token = $user->createToken('auth_token')->plainTextToken;
-
         return response()->json([
             'user' => $user,
-            'token' => $token
+            'token' => $user->createToken('auth_token')->plainTextToken
         ]);
     }
 
@@ -86,7 +85,7 @@ class UserController extends BaseController
     public function cards(Request $request)
     {
         $user = $request->user();
-        return response()->json($user->cards);
+        return response()->json($user->cards()->paginate(12));
     }
 
     public function update(Request $request, User $user)

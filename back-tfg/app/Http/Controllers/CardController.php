@@ -10,7 +10,8 @@ class CardController extends Controller
 {
     public function index()
     {
-        return response()->json(Card::all(), 200);
+        // Devolver todas las cartas sin traducir
+        return Card::all();
     }
 
     public function store(Request $request)
@@ -30,7 +31,8 @@ class CardController extends Controller
 
     public function show(Card $card)
     {
-        return response()->json($card, 200);
+        // Devolver la carta individual sin traducir
+        return $card;
     }
 
     public function update(Request $request, Card $card)

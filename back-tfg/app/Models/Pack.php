@@ -12,7 +12,7 @@ class Pack extends Model
     protected $fillable = [
         'name',
         'price',
-        'max_cards',
+        'cards_per_pack',
         'description',
     ];
 

@@ -1,78 +1,36 @@
-import React, { useState } from 'react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import api from '../lib/axios';
+import React from 'react';
+import { useQuery } from '@tanstack/react-query';
+import axios from '../lib/axios';
 import PackCard from '../components/packs/PackCard';
-import PokemonCard from '../components/cards/PokemonCard';
-import { useAuth } from '../contexts/AuthContext';
+import LoadingWindow from '../components/windows-ui/LoadingWindow';
+import Window from '../components/windows-ui/Window';
 
 const OpenPacks = () => {
-  const { user } = useAuth();
-  const [openedCards, setOpenedCards] = useState([]);
-  const queryClient = useQueryClient();
-
-  const { data: availablePacks, isLoading: packsLoading } = useQuery({
-    queryKey: ['availablePacks'],
-    queryFn: async () => {
-      const response = await api.get('/packs');
-      return response.data;
-    }
+  const { data: packs, isLoading } = useQuery({
+    queryKey: ['packs'],
+    queryFn: () => axios.get('/packs').then(res => res.data)
   });
 
-  const openPackMutation = useMutation({
-    mutationFn: async (packId) => {
-      const response = await api.post(`/packs/${packId}/open`);
-      return response.data;
-    },
-    onSuccess: (data) => {
-      setOpenedCards(data);
-      // Actualizar la lista de cartas del usuario
-      queryClient.invalidateQueries(['userCards']);
-    }
-  });
-
-  const handleOpenPack = async (pack) => {
-    try {
-      await openPackMutation.mutateAsync(pack.id);
-    } catch (error) {
-      console.error('Error al abrir el sobre:', error);
-    }
-  };
-
-  if (!user) {
-    return (
-      <div className="home-container">
-        <h2>Inicia sesión para abrir sobres</h2>
-      </div>
-    );
-  }
-
-  if (packsLoading) {
-    return <div>Cargando...</div>;
+  if (isLoading) {
+    return <LoadingWindow />;
   }
 
   return (
-    <div className="home-container">
-      <h2>Abrir Sobres</h2>
-      <div className="packs-grid">
-        {availablePacks?.map(pack => (
-          <PackCard 
-            key={pack.id} 
-            pack={pack} 
-            onOpen={handleOpenPack}
-          />
-        ))}
-      </div>
-
-      {openedCards.length > 0 && (
-        <div className="opened-cards">
-          <h3>Cartas Obtenidas</h3>
-          <div className="pokemon-grid">
-            {openedCards.map(card => (
-              <PokemonCard key={card.id} pokemon={card} />
-            ))}
+    <div className="flex justify-center pb-5 px-5 w-full box-border">
+      <div className="w-[800px] relative mx-auto mb-5">
+        <Window 
+          title="Abrir Sobres"
+          className="bg-[#c0c0c0] border-2 border-[#ffffff] border-t-[#808080] border-l-[#808080] p-2.5"
+        >
+          <div className="p-5 bg-[#c0c0c0] border-2 border-[#ffffff] border-t-[#808080] border-l-[#808080]">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {packs?.map(pack => (
+                <PackCard key={pack.id} pack={pack} />
+              ))}
+            </div>
           </div>
-        </div>
-      )}
+        </Window>
+      </div>
     </div>
   );
 };

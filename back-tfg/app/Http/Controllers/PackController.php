@@ -13,7 +13,7 @@ class PackController extends Controller
 {
     public function index()
     {
-        return response()->json(Pack::all(), 200);
+        return Pack::all();
     }
 
     public function store(Request $request)
@@ -67,7 +67,7 @@ class PackController extends Controller
                 'opened_at' => now(),
             ]);
 
-            $cardsToGive = $pack->cards()->inRandomOrder()->limit($pack->max_cards)->get();
+            $cardsToGive = $pack->cards()->inRandomOrder()->limit($pack->cards_per_pack)->get();
 
             $obtainedCards = [];
 

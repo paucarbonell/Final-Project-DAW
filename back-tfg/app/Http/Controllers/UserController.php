@@ -79,13 +79,21 @@ class UserController extends BaseController
 
     public function show(Request $request)
     {
-        return response()->json($request->user());
+        $user = $request->user();
+        $user->refresh(); // Forzar la recarga del usuario desde la base de datos
+
+        // Incluir el resultado del método canOpenPack en la respuesta
+        return response()->json([
+            'user' => $user,
+            'can_open_pack' => $user->canOpenPack()
+        ]);
     }
 
     public function cards(Request $request)
     {
         $user = $request->user();
-        return response()->json($user->cards()->paginate(12));
+        // Devolver las cartas del usuario, incluyendo los detalles de la tabla pivote y sin paginación del backend
+        return response()->json($user->cards()->withPivot('is_shiny', 'quantity', 'obtained_at')->get());
     }
 
     public function update(Request $request, User $user)
@@ -109,5 +117,47 @@ class UserController extends BaseController
         $user->delete();
 
         return response()->json(null, 204);
+    }
+
+    public function resetPackCounters(Request $request)
+    {
+        $user = $request->user();
+        
+        $user->update([
+            'last_pack_opened_at' => null,
+            'daily_pack_count' => 0
+        ]);
+
+        return response()->json([
+            'message' => 'Contadores reseteados correctamente',
+            'user' => $user
+        ]);
+    }
+
+    public function getDailyCoins(Request $request)
+    {
+        $user = $request->user();
+        
+        // Verificar si el usuario ya recibió sus monedas diarias hoy
+        $lastDailyCoins = $user->last_daily_coins;
+        $today = date('Y-m-d');
+        $lastCoinsDate = $lastDailyCoins ? date('Y-m-d', strtotime($lastDailyCoins)) : null;
+        
+        if ($lastCoinsDate === $today) {
+            return response()->json([
+                'message' => 'Ya has recibido tus monedas diarias hoy',
+                'coins' => $user->coins
+            ]);
+        }
+
+        // Dar 100 monedas al usuario
+        $user->coins += 100;
+        $user->last_daily_coins = now();
+        $user->save();
+
+        return response()->json([
+            'message' => '¡Has recibido 100 monedas!',
+            'coins' => $user->coins
+        ]);
     }
 }

@@ -41,6 +41,7 @@ const AuthPopup = ({ isOpen, onClose, initialMode = 'login' }) => {
       <Window 
         title={mode === 'login' ? 'Iniciar Sesion' : 'Registrarse'} 
         className="w-[400px] bg-[#c0c0c0] border-2 border-[#ffffff] border-t-[#808080] border-l-[#808080] p-2.5"
+        onClose={onClose}
       >
         <form onSubmit={handleSubmit} className="p-4 space-y-4">
           {mode === 'register' && (

@@ -11,6 +11,11 @@ class AuthMiddleware
     public function handle(Request $request, Closure $next)
     {
         if (Auth::guard('sanctum')->check()) {
+            $user = Auth::guard('sanctum')->user();
+            Auth::setUser($user);
+            $request->setUserResolver(function () use ($user) {
+                return $user;
+            });
             return $next($request);
         }
 

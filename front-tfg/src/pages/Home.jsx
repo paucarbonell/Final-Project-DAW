@@ -68,7 +68,7 @@ const Home = () => {
               <div className="featured-pokemon-grid">
                 {randomPokemon.map(poke => (
                   <div key={poke.id}>
-                    <PokemonCard pokemon={poke} />
+                    <PokemonCard baseCard={poke} isOwned={true} />
                   </div>
                 ))}
               </div>

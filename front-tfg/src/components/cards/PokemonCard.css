@@ -1,14 +1,16 @@
 .pokemon-card {
   background-color: #c0c0c0;
-  border: 2px solid #ffffff;
-  border-top-color: #808080;
-  border-left-color: #808080;
-  padding: 0.5rem; /* Corresponds to p-2 */
-  transition: background-color 0.15s ease-in-out;
-  height: 9.5rem; /* Fixed height for the card */
-  display: flex; /* Use flexbox to manage content layout */
-  flex-direction: column; /* Stack children vertically */
-  text-align: center; /* Center align text */
+  border: 2px solid;
+  border-top-color: #ffffff;
+  border-left-color: #ffffff;
+  border-right-color: #808080;
+  border-bottom-color: #808080;
+  padding: 0.5rem;
+  height: 8.5rem;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  position: relative;
 }
 
 .pokemon-card:hover {
@@ -20,64 +22,90 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 6rem; /* Adjusting height for responsiveness, previously h-24 */
-  overflow: hidden; /* Ensure image doesn't overflow */
+  height: 7rem;
+  overflow: hidden;
+  background-color: white;
+  border: 2px solid;
+  border-top-color: #808080;
+  border-left-color: #808080;
+  border-right-color: #ffffff;
+  border-bottom-color: #ffffff;
+  padding: 0.25rem;
+  margin-bottom: 0.25rem;
 }
 
 .pokemon-card-image {
-  /* Using max-width/height for responsiveness */
-  max-width: 100%; 
+  max-width: 100%;
   max-height: 100%;
   object-fit: contain;
-  background-color: white;
-  border: 1px solid #808080;
 }
 
 .pokemon-card-name {
-  font-size: 0.875rem; /* text-sm */
+  font-size: 0.875rem;
   font-weight: bold;
-  margin-top: 0.5rem; /* mt-2 */
+  margin-top: 0.25rem;
   color: #000080;
-  text-shadow: 1px 1px 0 #ffffff; /* drop-shadow-[1px_1px_0_#ffffff] */
+  text-shadow: 1px 1px 0 #ffffff;
 }
 
 .pokemon-card-types {
   display: flex;
-  gap: 0.25rem; /* gap-1 */
-  margin-top: 0.25rem; /* mt-1 */
-  justify-content: center; /* Center types */
+  gap: 0.25rem;
+  margin-top: 0.25rem;
+  justify-content: center;
 }
 
 .pokemon-card-type {
-  font-size: 0.75rem; /* text-xs */
-  padding: 0 0.25rem; /* px-1 */
+  font-size: 0.75rem;
+  padding: 0 0.25rem;
   background-color: #c0c0c0;
   border: 1px solid #808080;
   color: black;
 }
 
 .pokemon-card-rarity {
-  font-size: 0.75rem; /* text-xs */
-  margin-top: 0.25rem; /* mt-1 */
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  color: #000000;
 }
-
-/* Rarity colors */
 .rarity-común {
-  color: green; /* Comun - Green */
+  color: green;
 }
-
 .rarity-raro {
-  color: blue; /* Raro - Blue */
+  color: blue;
 }
 
 .rarity-épico {
-  color: purple; /* Epico - Purple */
+  color: purple;
 }
 
 .rarity-legendario {
-  color: #b8860b; /* Goldenrod - keeping current */
+  color: #b8860b;
 }
 
 .rarity-default {
-  color: #696969; /* Dim Gray - roughly gray-600 */
+  color: #696969;
+}
+
+.pokemon-card-quantity {
+  position: absolute;
+  bottom: 0.25rem;
+  right: 0.25rem;
+  background-color: #c0c0c0;
+  border: 1px solid #808080;
+  padding: 0 0.25rem;
+  font-size: 0.75rem;
+  color: black;
+  z-index: 10;
+}
+
+.pokemon-card-shiny-indicator {
+  position: absolute;
+  top: 0.25rem;
+  left: 0.25rem;
+  font-size: 1.2rem;
+  line-height: 1;
+  color: gold;
+  text-shadow: 1px 1px 0 black;
+  z-index: 10;
 } 

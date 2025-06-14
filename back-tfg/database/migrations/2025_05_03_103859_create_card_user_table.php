@@ -13,6 +13,8 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('card_id')->constrained()->onDelete('cascade');
             $table->foreignId('from_pack_opening_id')->nullable()->constrained('pack_openings')->onDelete('set null');
+            $table->boolean('is_shiny')->default(false);
+            $table->integer('quantity')->default(1);
             $table->timestamp('obtained_at');
             $table->timestamps();
         });

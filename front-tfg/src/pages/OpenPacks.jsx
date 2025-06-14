@@ -17,7 +17,7 @@ const OpenPacks = () => {
 
   return (
     <div className="flex justify-center pb-5 px-5 w-full box-border">
-      <div className="w-[800px] relative mx-auto mb-5">
+      <div className="w-[800px] relative mx-auto mb-5 mt-4">
         <Window 
           title="Abrir Sobres"
           className="bg-[#c0c0c0] border-2 border-[#ffffff] border-t-[#808080] border-l-[#808080] p-2.5"

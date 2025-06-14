@@ -1,8 +1,23 @@
 import React from 'react';
 import './PokemonCard.css';
 
-const PokemonCard = ({ pokemon }) => {
-  const { name, image_url, types = [], rarity } = pokemon;
+const PokemonCard = ({ baseCard, ownedCardDetails, isOwned }) => {
+  // Si la carta no es poseída, mostramos un placeholder
+  if (!isOwned || !baseCard) {
+    return (
+      <div className="pokemon-card-placeholder">
+        <div className="pokemon-card-placeholder-number">
+          #{baseCard?.id || 'N/A'}
+        </div>
+        {/* Podríamos añadir una silueta o signo de interrogación aquí */}
+      </div>
+    );
+  }
+
+  // Si la carta es poseída, mostramos los detalles
+  // Usamos la imagen shiny si ownedCardDetails indica que es shiny, de lo contrario la normal
+  const imageUrl = ownedCardDetails?.is_shiny ? baseCard.shiny_image_url : baseCard.image_url;
+  const { name, types = [], rarity } = baseCard;
 
   const capitalizeFirstLetter = (string) => {
     if (!string) return '';
@@ -12,9 +27,9 @@ const PokemonCard = ({ pokemon }) => {
   return (
     <div className="pokemon-card">
       <div className="pokemon-card-image-container">
-        {image_url && (
+        {imageUrl && (
           <img 
-            src={image_url} 
+            src={imageUrl} 
             alt={name} 
             className="pokemon-card-image"
           />
@@ -39,6 +54,14 @@ const PokemonCard = ({ pokemon }) => {
             {capitalizeFirstLetter(rarity)}
           </span>
         </p>
+      )}
+      {ownedCardDetails?.quantity > 1 && (
+        <div className="pokemon-card-quantity">
+          x{ownedCardDetails.quantity}
+        </div>
+      )}
+      {ownedCardDetails?.is_shiny && (
+        <div className="pokemon-card-shiny-indicator">✨</div>
       )}
     </div>
   );

@@ -30,7 +30,7 @@ class Card extends Model
 
     public function users()
     {
-        return $this->belongsToMany(User::class, 'card_users');
+        return $this->belongsToMany(User::class, 'card_user');
     }
 
     public function pack()

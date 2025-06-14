@@ -11,6 +11,12 @@ const Window = ({
   isResizable = true,
   className = ''
 }) => {
+  const handleClose = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (onClose) onClose();
+  };
+
   return (
     <div className={`windows-window ${isActive ? 'active' : 'inactive'} ${className}`} style={{ width, height }}>
       <div className="windows-window-header">
@@ -18,7 +24,7 @@ const Window = ({
         <div className="windows-window-controls">
           <button className="windows-window-minimize">-</button>
           <button className="windows-window-maximize">□</button>
-          <button className="windows-window-close" onClick={onClose}>×</button>
+          <button className="windows-window-close" onClick={handleClose}>×</button>
         </div>
       </div>
       <div className="windows-window-content">

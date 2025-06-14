@@ -4,10 +4,10 @@
 
 @font-face {
   font-family: 'MS Sans Serif';
-  src: local('MS Sans Serif'), url('/fonts/ms-sans-serif.woff2') format('woff2'), url('/fonts/ms-sans-serif-1.otf') format('opentype');
+  src: local('MS Sans Serif'), url('/fonts/ms-sans-serif-1.otf') format('opentype');
   font-weight: normal;
   font-style: normal;
-  font-display: swap; /* Asegura que el texto sea visible durante la carga de la fuente */
+  font-display: swap;
 }
 
 * {
@@ -23,31 +23,16 @@ html, body, #root {
 
 #root {
   display: flex;
-  flex-direction: column; /* Stack header and main content vertically */
-  height: 100%; /* Ensure #root takes full viewport height */
-  background-color: #000080; /* Apply background color to the root element */
+  flex-direction: column;
+  height: 100%;
+  background-color: #000080;
 }
 
 .main-content {
-  flex-grow: 1; /* Allow main content to take remaining space */
-  /* overflow-y: auto; */ /* This class is not used, will add overflow to the correct div in App.jsx */
-  /* padding-top: 100px; */ /* Padding handled by App.jsx wrapper div */
-  /* Puedes añadir padding-left y padding-right si el contenido no está centrado por otros medios */
-  /* padding-left: 20px;
-  padding-right: 20px; */
-  box-sizing: border-box; /* Ensure padding is included in the element's total width and height */
+  flex-grow: 1;
+  box-sizing: border-box;
 }
 
-/* Asegurarse que no haya margen superior en la pagina retro */
-/* .retro-page { margin-top: 0; } */
-
-/* Eliminar header-spacer si ya no es necesario */
-/* .header-spacer {
-  height: 55px;
-  flex-shrink: 0;
-} */
-
-/* Usar una fuente del sistema como fallback */
 body {
   font-family: "MS Sans Serif", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
@@ -57,51 +42,42 @@ body {
 }
 
 #root {
-  min-height: 100vh; /* Keeping this for robustness */
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
 main {
-  /* flex: 1; */ /* Removed flex: 1, handled by wrapper div in App.jsx */
   display: flex;
   flex-direction: column;
 }
 
-/* Featured Pokemon Grid Styles */
 .featured-pokemon-grid {
   display: grid;
-  /* Use auto-fit and minmax for responsive columns */
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 1rem; /* Corresponds to gap-4 (16px) */
-  /* Optional: Add some padding if needed */
-  /* padding: 0.5rem; */
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.5rem;
 }
 
-/* Home Page Sections Spacing */
 .home-sections-container {
   display: flex;
   flex-direction: column;
-  gap: 1rem !important; /* Espacio uniforme de 1rem entre las secciones */
-  margin-top: 1rem !important; /* Espacio uniforme de 1rem por encima del contenedor de secciones, separándolo del header */
-  /* margin-bottom se manejará en el componente si es necesario */
+  gap: 1rem !important;
+  margin-top: 1rem !important;
 }
 
 .home-section {
-  /* El gap del contenedor gestiona el espacio, eliminamos cualquier margen inferior/superior */
-  margin-bottom: 0 !important; 
+  margin-bottom: 0 !important;
   margin-top: 0 !important;
 }
 
-/* Auth Buttons Spacing */
 .auth-buttons-container {
   display: flex;
   gap: 0.75rem !important;
 }
 
 .auth-button {
-  font-size: 0.875rem; /* text-sm */
-  padding: 0.375rem 0.75rem; /* px-3 py-1.5 */
+  font-size: 0.875rem;
+  padding: 0.375rem 0.75rem;
   background-color: #c0c0c0;
   border: 2px solid;
   border-color: #ffffff #808080 #808080 #ffffff;
@@ -118,12 +94,11 @@ main {
   border-color: #808080 #ffffff #ffffff #808080;
 }
 
-/* Pack Items Spacing */
 .pack-item {
   border-bottom: 2px solid #808080;
   border-top: 2px solid #ffffff;
   padding: 0.5rem;
-  margin-bottom: 0.25rem; /* 4px de margen entre packs */
+  margin-bottom: 0.25rem;
 }
 
 .pack-item:last-child {
@@ -131,30 +106,12 @@ main {
   margin-bottom: 0;
 }
 
-/* Pack Buttons */
-.pack-button {
-  padding: 0.55rem; /* Same padding as auth buttons */
-  min-height: 2.5rem; /* Ensure consistent height */
-  /* Retro button styles */
-  background-color: #c0c0c0; /* Windows 98 gray */
-  border: 2px solid;
-  border-color: #ffffff #808080 #808080 #ffffff; /* 3D effect */
-  box-shadow: 1px 1px 0px #000000;
-  text-decoration: none;
-  color: #000000;
-  display: inline-block;
-  text-align: center;
-  cursor: pointer;
-  font-size: 1rem;
-  line-height: 1.5;
-}
-
 .pack-button:hover {
-  border-color: #808080 #ffffff #ffffff #808080; /* Invert for hover effect */
+  border-color: #000080 #ffffff #ffffff #000080;
 }
 
 .pack-button:active {
-  border-color: #000000; /* Pressed effect */
+  border-color: #000000;
   box-shadow: none;
 }
 
@@ -170,9 +127,9 @@ main {
   display: inline-block;
   text-align: center;
   cursor: pointer;
-  font-size: 1.125rem; /* Slightly larger font size for this button */
+  font-size: 1.125rem;
   line-height: 1.5;
-  margin-top: 0.75rem; /* Added small top margin */
+  margin-top: 0.75rem;
 }
 
 .collect-button:hover {
@@ -184,70 +141,108 @@ main {
   box-shadow: none;
 }
 
-/* Header Spacing */
 .header-container {
-  margin-top: 0.5rem !important; /* Mantener margen superior actual */
-  /* Eliminamos el margen inferior ya que el espacio debajo del header lo controlará el margen superior del contenedor de secciones */
-  margin-bottom: 0 !important; 
+  margin-top: 0.5rem !important;
+  margin-bottom: 0 !important;
 }
 
-/* Welcome Section Spacing */
+.album-container {
+  margin-bottom: 20px;
+}
+
+.pagination-container {
+  margin-top: 10px;
+}
+
+.profile-menu-container {
+  position: relative;
+}
+
+.profile-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #c0c0c0;
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  min-width: 200px;
+  z-index: 50;
+  margin-top: 2px;
+}
+
+.profile-dropdown-item {
+  display: block;
+  padding: 8px 16px;
+  color: #000000;
+  text-decoration: none;
+  text-align: left;
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.profile-dropdown-item:hover {
+  background-color: #000080;
+  color: white;
+}
+
 .welcome-section {
-  /* El gap del contenedor gestiona el espacio, eliminamos cualquier margen inferior/superior */
-  margin-bottom: 0 !important; 
+  margin-bottom: 0 !important;
   margin-top: 0 !important;
 }
 
-/* Auth Modal Positioning */
 .auth-modal-overlay {
   position: fixed;
   inset: 0;
   background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   z-index: 1000;
 }
 
 .auth-modal-container {
-  position: absolute;
-  top: 0;
-  right: 0;
-  /* You might want to limit the width of the modal itself */
-  /* max-width: 400px; */
-  margin-top: 1rem;
-  margin-right: 1rem;
-}
-
-/* Auth Switch Button */
-.auth-switch-button {
-  font-size: 0.875rem; /* text-sm */
-  color: #000000; /* Black */
-  background: none;
+  background-color: #c0c0c0;
   border: 2px solid;
   border-color: #ffffff #808080 #808080 #ffffff;
-  padding: 0.55rem 0.75rem; /* Set same vertical padding as main button */
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 400px;
+  box-sizing: border-box;
+}
+
+.auth-switch-button {
+  font-size: 0.875rem;
+  background: none;
+  border: none;
+  color: #000080;
+  text-decoration: underline;
   cursor: pointer;
-  text-decoration: none;
-  min-height: 2.5rem; /* Set minimum height to match main button */
+  display: block;
+  text-align: center;
+  margin-top: 1rem;
 }
 
 .auth-switch-button:hover {
-  text-decoration: none;
-  border-color: #808080 #ffffff #ffffff #808080;
+  color: #0000c0;
 }
 
 .auth-switch-button:focus {
   outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 0, 128, 0.5);
 }
 
-/* Auth Modal Main Buttons */
 .auth-modal-main-button {
-  font-size: 1rem; /* Base font size, adjust if needed */
-  padding: 0.55rem 1rem; /* Set same vertical padding as switch button */
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
   background-color: #c0c0c0;
   border: 2px solid;
   border-color: #ffffff #808080 #808080 #ffffff;
-  color: #000000; /* Black text */
+  color: #000000;
   cursor: pointer;
-  min-height: 2.5rem; /* Set minimum height to match switch button */
+  width: 100%;
+  text-align: center;
 }
 
 .auth-modal-main-button:hover {
@@ -255,67 +250,113 @@ main {
 }
 
 .auth-modal-main-button:active {
-  /* Removed padding adjustments in active state */
+  padding: 0.5rem 0.5rem 0.25rem 0.625rem;
   border-color: #808080 #ffffff #ffffff #808080;
 }
 
-/* Auth Modal Buttons Container for Spacing */
 .auth-modal-buttons-container {
-  margin-top: 0.5rem !important; /* Adjusted manually by user */
   display: flex;
-  gap: 2px;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
-/* Auth Modal Input Group Spacing */
 .auth-modal-input-group {
-  margin-top: 5px !important; /* Adjusted manually by user */
+  margin-bottom: 1rem;
 }
 
 .auth-modal-input-group:first-child {
-  margin-top: 0 !important; /* No top margin for the first group */
+  margin-top: 1rem;
 }
 
-/* Auth Modal Input Spacing */
 .auth-modal-form label {
   display: block;
-  font-size: 0.875rem; /* text-sm */
-  margin-bottom: 1px;
-  color: #000000; /* text-[#000000] */
+  margin-bottom: 0.5rem;
+  color: #000000;
 }
 
-/* Profile Dropdown Menu */
-.profile-dropdown-menu {
-  position: fixed; /* Use fixed positioning to float over content */
-  top: 7rem !important; /* Estimate header height + gap (1rem = 16px, 7rem = 112px) */
-  right: calc(50% - 400px) !important; /* Align to the right edge of the 800px centered block */
-  width: 12rem; /* Fixed width for the dropdown */
-  background-color: #c0c0c0;
-  border: 2px solid;
-  border-color: #ffffff #808080 #808080 #ffffff;
-  z-index: 100; /* Ensure it's above other content */
-}
-
-.profile-dropdown-item {
-  display: block;
-  padding: 0.5rem 1rem; /* Vertical and horizontal padding */
-  font-size: 0.875rem; /* text-sm */
-  color: #000000; /* Black text */
-  text-decoration: none; /* Remove default underline */
-  cursor: pointer;
-  text-align: left;
-}
-
-.profile-dropdown-item:hover {
-  background-color: #d0d0d0; /* Slightly lighter gray on hover */
-}
-
-/* Welcome Message Text Spacing */
 .welcome-message-text {
-  margin-top: 10px !important; /* 10px top margin */
-  margin-bottom: 10px !important; /* 10px bottom margin */
-  /* Inherit other styles like font-size, color, etc. from Tailwind classes already applied */
+  line-height: 1.5;
+  font-size: 1.125rem;
 }
 
 .welcome-inner-message {
-  padding: 2rem; /* Increased padding */
+  padding: 1.25rem;
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.pack-text-line {
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #000080;
+  text-shadow: 1px 1px 0 #ffffff;
+}
+
+.pack-text-container {
+  margin-bottom: 1.5rem;
+}
+
+.retro-button {
+  background-color: #4a90e2;
+  border: 4px solid #2c5282;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 20px 40px;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 0 #2c5282;
+  text-shadow: 2px 2px 0 #2c5282;
+}
+
+.retro-button:hover {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #2c5282;
+}
+
+.retro-button:active {
+  transform: translateY(4px);
+  box-shadow: none;
+}
+
+.retro-button:disabled {
+  background-color: #cbd5e0;
+  border-color: #a0aec0;
+  box-shadow: 0 4px 0 #a0aec0;
+  text-shadow: 2px 2px 0 #a0aec0;
+  cursor: not-allowed;
+}
+
+.retro-button.yellow {
+  background-color: #fceb00;
+  border-color: #ffe658 #b19d00 #b19d00 #ffe658;
+  box-shadow: 1px 1px 0px #706300;
+  color: #000000;
+}
+
+.retro-button.yellow:hover {
+  background-color: #ffef4d;
+  border-color: #b19d00 #ffe658 #ffe658 #b19d00;
+}
+
+.retro-button.yellow:active {
+  background-color: #b19d00;
+  border-color: #000000;
+  box-shadow: none;
+}
+
+.retro-button.yellow:disabled {
+  background-color: #a0a0a0;
+  border-color: #909090 #c0c0c0 #c0c0c0 #909090;
+  color: #606060;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.album-grid-scroll-area {
+  max-height: 450px;
+  overflow-y: auto;
+  padding-right: 10px;
 }

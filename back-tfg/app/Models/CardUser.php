@@ -9,15 +9,20 @@ class CardUser extends Model
 {
     use HasFactory;
 
+    protected $table = 'card_user';
+
     protected $fillable = [
         'user_id',
         'card_id',
         'from_pack_opening_id',
         'obtained_at',
+        'is_shiny',
+        'quantity',
     ];
 
     protected $casts = [
         'obtained_at' => 'datetime',
+        'is_shiny' => 'boolean',
     ];
 
     public function user()
